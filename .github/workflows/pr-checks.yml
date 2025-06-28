@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened, synchronize, edited, reopened]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   semantic-pr-title:
     name: Validate PR Title (Semantic Versioning)
