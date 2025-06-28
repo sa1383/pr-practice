@@ -1,0 +1,44 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
+
+jobs:
+  semantic-pr-title:
+    name: Validate PR Title (Semantic Versioning)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR title
+        uses: amannn/action-semantic-pull-request@v5
+        with:
+          types: |
+            feat
+            fix
+            chore
+            docs
+            style
+            refactor
+            perf
+            test
+            ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  eslint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint

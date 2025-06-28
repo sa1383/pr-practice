@@ -1,0 +1,26 @@
+{
+  "name": "pr-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sa1383/pr-practice.git"
+  },
+  "keywords": [],
+  "author": "saeed.samimirashkhar",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sa1383/pr-practice/issues"
+  },
+  "homepage": "https://github.com/sa1383/pr-practice#readme",
+  "devDependencies": {
+    "eslint": "^9.30.0"
+  }
+}
