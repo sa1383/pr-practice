@@ -12,29 +12,35 @@ jobs:
   validate-issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Check for labels
+      - name: Handle unlabeled issues
         uses: actions/github-script@v7
         with:
           script: |
-            const labels = context.payload.issue.labels;
+            const issue = context.payload.issue;
+            const labels = issue.labels;
+
             if (!labels || labels.length === 0) {
-              core.setFailed("❌ No labels found. Please add at least one label.");
-            }
+              const issueNumber = issue.number;
+              const issueCreator = issue.user.login;
 
-      - name: Check for assignee and comment if missing
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const assignees = context.payload.issue.assignees;
-            if (!assignees || assignees.length === 0) {
-              const issueNumber = context.payload.issue.number;
-              const issueCreator = context.payload.issue.user.login;
+              const warningComment = `🚫 This issue has been closed because it was created without any labels. Please reopen and add at least one label. @${issueCreator}`;
 
-              const body = `⚠️ This issue has no assignee. Please assign it to someone. @${issueCreator}`;
+              // Post comment
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issueNumber,
-                body: body
+                body: warningComment
               });
+
+              // Close issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                state: "closed"
+              });
+
+              // Optionally fail the job (if you want)
+              core.setFailed("Issue closed due to missing labels.");
             }
