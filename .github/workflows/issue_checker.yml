@@ -7,10 +7,6 @@ on:
 permissions:
   issues: write
   contents: read
-<<<<<<< HEAD
-  metadata: read
-=======
->>>>>>> develop
 
 jobs:
   validate-issue:
