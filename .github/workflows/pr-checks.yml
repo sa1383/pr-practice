@@ -43,7 +43,12 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci --verbose
+        run: npm ci
 
-      - name: Run ESLint
-        run: npm run lint
+      - name: Run ESLint with reviewdog
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          fail_on_error: true
+          eslint_flags: '.'
