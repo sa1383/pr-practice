@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "npx eslint . -f html -o ./eslint-reports/report.html",
+    "lint": "npx eslint . -f markdown -o ./eslint-reports/report.md",
     "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/sa1383/pr-practice#readme",
   "devDependencies": {
-    "eslint": "^9.30.0"
+    "eslint": "^9.30.0",
+    "eslint-formatter-markdown": "github:sa1383/eslint-formatter-markdown#v1.0.0"
   }
 }
