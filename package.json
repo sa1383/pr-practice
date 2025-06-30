@@ -1,12 +1,12 @@
 {
   "name": "pr-practice",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Node.js module to practice PR Checks in Github actions",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "npx eslint .",
-    "lint:fix": "npx eslint . --fix"
+    "lint": "npx eslint . -f html -o ./eslint-reports/report.html",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
