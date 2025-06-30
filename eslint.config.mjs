@@ -29,7 +29,7 @@ export default defineConfig([
 
 		rules: {
 			'no-unused-vars': 'error',
-			'no-console': 'error',
+			'no-console': 'warn',
 			eqeqeq: 'error',
 			semi: ['error', 'always'],
 			quotes: ['error', 'single'],

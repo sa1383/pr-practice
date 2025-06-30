@@ -1,5 +1,5 @@
-console.log('hello World');
+const fs = require('fs');
+const path = require('path');
 
-function f(l,s){
-
-}
+const fileName = fs.readFile(path.join(__dirname + './package.json'));
+console.log('filename: ', fileName);
