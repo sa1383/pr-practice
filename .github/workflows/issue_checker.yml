@@ -13,16 +13,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for labels
-        if: ${{ github.event.issue.labels == '' }}
-        run: |
-          echo "❌ No labels found. Please add at least one label."
-          exit 1
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = context.payload.issue.labels;
+            if (!labels || labels.length === 0) {
+              core.setFailed("❌ No labels found. Please add at least one label.");
+            }
 
-      - name: Check for assignee
-        if: ${{ github.event.issue.assignees == '' }}
-        run: |
-          COMMENT_BODY="⚠️ This issue has no assignee. Please assign it to a user. @${{ github.event.issue.user.login }}"
-          gh issue comment ${{ github.event.issue.number }} --body "$COMMENT_BODY"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check for assignee and comment if missing
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const assignees = context.payload.issue.assignees;
+            if (!assignees || assignees.length === 0) {
+              const issueNumber = context.payload.issue.number;
+              const issueCreator = context.payload.issue.user.login;
 
+              const body = `⚠️ This issue has no assignee. Please assign it to someone. @${issueCreator}`;
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: body
+              });
+            }
